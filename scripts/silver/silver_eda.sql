@@ -128,3 +128,24 @@ WHERE sls_sales != sls_quantity * sls_price
 ORDER BY sls_sales, sls_quantity, sls_price;
 
 SELECT * FROM silver.crm_sales_details;
+
+/*
+Data Quality Check - erp_cust_az12 table
+*/
+SELECT
+    cid,
+    bdate,
+    gen
+FROM silver.erp_cust_az12;
+
+-- Check invalid date, data type, or out of range dates
+SELECT bdate
+FROM silver.erp_cust_az12
+WHERE bdate < '1924-01-01' OR bdate > GETDATE();
+
+-- Check for data consistency
+SELECT DISTINCT 
+    gen
+FROM silver.erp_cust_az12;
+
+SELECT * FROM silver.erp_cust_az12;

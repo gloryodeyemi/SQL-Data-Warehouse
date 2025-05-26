@@ -116,3 +116,22 @@ WHERE sls_sales != sls_quantity * sls_price
     OR sls_sales IS NULL OR sls_quantity IS NULL or sls_price IS NULL
     OR sls_sales <= 0 OR sls_quantity <= 0 or sls_price <= 0
 ORDER BY sls_sales, sls_quantity, sls_price;
+
+/*
+Data Quality Check - erp_cust_az12 table
+*/
+SELECT
+    cid,
+    bdate,
+    gen
+FROM bronze.erp_cust_az12;
+
+-- Check invalid date, data type, or out of range dates
+SELECT bdate
+FROM bronze.erp_cust_az12
+WHERE bdate < '1924-01-01' OR bdate > GETDATE();
+
+-- Check for data consistency
+SELECT DISTINCT 
+    gen
+FROM bronze.erp_cust_az12;
