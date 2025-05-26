@@ -135,3 +135,15 @@ WHERE bdate < '1924-01-01' OR bdate > GETDATE();
 SELECT DISTINCT 
     gen
 FROM bronze.erp_cust_az12;
+
+/*
+Data Quality Check - erp_loc_a101 table
+*/
+SELECT
+    cid,
+    cntry
+FROM bronze.erp_loc_a101;
+
+-- Check for data consistency
+SELECT DISTINCT cntry
+FROM bronze.erp_loc_a101;
