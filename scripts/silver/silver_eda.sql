@@ -1,4 +1,5 @@
 -- EXEC bronze.load_bronze_proc
+EXEC Silver.load_silver_proc;
 
 SELECT TOP 1000 * FROM bronze.crm_cust_info;
 SELECT TOP 1000 * FROM bronze.crm_prd_info;
@@ -161,3 +162,24 @@ FROM silver.erp_loc_a101;
 -- Check for data consistency
 SELECT DISTINCT cntry
 FROM silver.erp_loc_a101;
+
+/*
+Data Quality Check - erp_px_cat_g1v2 table
+*/
+SELECT *
+FROM silver.erp_px_cat_g1v2;
+
+-- Check for unwanted spaces
+SELECT * 
+FROM silver.erp_px_cat_g1v2
+WHERE cat != TRIM(cat) OR subcat != TRIM(subcat) OR maintenance != TRIM(maintenance);
+
+-- Check for data consistency
+SELECT DISTINCT cat
+FROM silver.erp_px_cat_g1v2;
+
+SELECT DISTINCT subcat
+FROM silver.erp_px_cat_g1v2;
+
+SELECT DISTINCT maintenance
+FROM silver.erp_px_cat_g1v2;

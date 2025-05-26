@@ -147,3 +147,21 @@ FROM bronze.erp_loc_a101;
 -- Check for data consistency
 SELECT DISTINCT cntry
 FROM bronze.erp_loc_a101;
+
+/*
+Data Quality Check - erp_px_cat_g1v2 table
+*/
+-- Check for unwanted spaces
+SELECT * 
+FROM bronze.erp_px_cat_g1v2
+WHERE cat != TRIM(cat) OR subcat != TRIM(subcat) OR maintenance != TRIM(maintenance);
+
+-- Check for data consistency
+SELECT DISTINCT cat
+FROM bronze.erp_px_cat_g1v2;
+
+SELECT DISTINCT subcat
+FROM bronze.erp_px_cat_g1v2;
+
+SELECT DISTINCT maintenance
+FROM bronze.erp_px_cat_g1v2;
