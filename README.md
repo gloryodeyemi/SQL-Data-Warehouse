@@ -25,6 +25,7 @@ This project utilizes the following tools and technologies for building, managin
 ## 🏗️ Data Architecture
 
 The project follows a **Medallion Architecture** consisting of three key layers: **Bronze**, **Silver**, and **Gold** layers:
+
 ![Data Architecture](docs/data_architecture.png)
 
 1. **✅ Bronze Layer**: Stores raw data as-is from the source systems. Data is ingested from CSV Files into SQL Server Database.
@@ -118,9 +119,15 @@ SQL-Data-Warehouse/
 * Load ERP and CRM CSV files into Bronze layer tables using scripts in `scripts/bronze/`.
 * Transform and clean the data using scripts in `scripts/silver/`.
 * Execute the script in `scripts/gold/` to generate business-ready data for analytics and reporting.
+  
+![Data Flow](docs/data_flow.png)
 
 4. **Explore Data**
 * Use the star schema in the Gold layer for analytical queries and reporting.
+  
+![Data Model](docs/data_model.png)
+
+---
 
 ## 🧪 Testing & Validation
 * Data quality checks scripts in the tests/ folder ensure:
@@ -133,6 +140,8 @@ SQL-Data-Warehouse/
   * Uniqueness of surrogate keys in dimension tables.
   * Referential integrity between fact and dimension tables.
   * Validation of relationships in the data model for analytical purposes.
+
+---
  
 ## 🔮 Future Work
 This project lays the foundation for a robust and scalable data warehouse. Future enhancements could include:
@@ -165,6 +174,8 @@ This project lays the foundation for a robust and scalable data warehouse. Futur
 * 📦 Data Export APIs
 
   Build export mechanisms for downstream systems and data consumers.
+
+---
 
 ## 🛡️ License
 
