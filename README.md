@@ -73,14 +73,15 @@ The project follows a **Medallion Architecture** consisting of three key layers:
 
 ## 📊 **Impact: Data Quality Metrics**
 
-To ensure trust in data for analytics, **rigorous quality checks** were run on the Bronze layer and resolved in the Silver layer.
-Below are *real metrics* from this project:
+This project demonstrates practical data profiling and cleansing, transforming messy raw data (Bronze) into clean, trusted analytics-ready data (Silver). The table below shows a breakdown of key data quality checks and transformations performed:
 
-| Table                   | Issue                      | Affected Records | Silver Fix                                                                      |
+
+
+<!-- | Table                   | Issue                      | Affected Records | Silver Fix                                                                      |
 | ----------------------- | -------------------------- | ---------------- | ------------------------------------------------------------------------------- |
 | **crm\_cust\_info**     | Duplicate IDs              | 5                | Kept latest by create date                                                      |
 |                         | Null IDs                   | 3                | Removed                                                                         |
-|                         | Unwanted spaces            | 32               | Trimmed                                                                         |
+|                         | Unwanted spaces (first/last names)            | 32               | Trimmed                                                                         |
 |                         | Inconsistent gender        | 4,577            | Mapped (`F`/`M` ➜ `Female`/`Male`)                                              |
 |                         | Null marital status        | 6                | Mapped to `N/A`                                                                 |
 | **crm\_prd\_info**      | Null product cost          | 2                | Set to `0`                                                                      |
@@ -91,7 +92,27 @@ Below are *real metrics* from this project:
 | **erp\_cust\_az12**     | Invalid birthdates         | 31               | Future dates ➜ `NULL`                                                           |
 |                         | Inconsistent gender        | 1,484            | Standardized                                                                    |
 | **erp\_loc\_a101**      | Inconsistent country names | \~8,385          | Merged synonyms (e.g. `US` ➜ `United States`, `DE` ➜ `Germany`, blanks ➜ `N/A`) |
-| **erp\_px\_cat\_g1v2**  | Carriage returns           | n/a              | Removed                                                                         |
+| **erp\_px\_cat\_g1v2**  | Carriage returns           | n/a              | Removed                                                                         | -->
+
+<!-- New -->
+
+| Table                |  Issue                                      | Records Affected | Resolution                                                              |
+| ----------------------- | ---------------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| **crm\_cust\_info**     | Duplicates                                     | 5                   | Duplicates removed, kept latest by `cst_create_date`                                                 |
+|                         | Null customer IDs                              | 3                   | Nulls excluded                                                                    |
+|                         | Unwanted spaces in names             | 32                  | Trimmed first & last names                                                                    |
+|                         | Inconsistent genders (`F`, `M`, `NULL`)        | 4,577 (`NULL`)               | Standardized to `Male`/`Female`; NULL ➜ `N/A`                              |
+|                         | Inconsistent marital status (`S`, `M`, `NULL`) | 6 (`NULL`)                    | Standardized to `Single`/`Married`; NULL ➜ `N/A`                           |
+| **crm\_prd\_info**      | Null costs                                     | 2                   | Set to `0`                                                                 |
+|                         | Invalid product lines (`M`, `R`, `S`, `T`, `NULL`)                          | 17 (`NULL`)                 | Mapped codes to descriptive lines; `NULL` → `N/A`                                                |
+|                         | Invalid date orders                            | 200                 | Recalculated end dates based on next start date                                                     |
+| **crm\_sales\_details** | Null/invalid order dates                       | 19                  | Fixed or set to `NULL`                                                     |
+|                         | Data inconsistencies in sales, quantity, and price              | 35                  | Recalculated sales & price as needed                                                |
+| **erp\_cust\_az12**     | Invalid birthdates                             | 31                  | Invalid dates set to `NULL`                                                      |
+|                         | Gender inconsistencies                         | 1,484               | Standardized to `Male`/`Female`; blanks -> `N/A`                            |
+| **erp\_loc\_a101**      | Country synonyms & blanks                      | \~8,385             | Merged synonyms (`US`, `USA` -> `United States`, `DE` -> `Germany`); blanks -> `N/A` |
+| **erp\_px\_cat\_g1v2**  | Carriage returns                               | varied                | Cleaned with `REPLACE()`                                                   |
+
 
 ✅ **Total records impacted:**
 
@@ -216,34 +237,34 @@ SQL-Data-Warehouse/
 ## 🔮 Future Work
 This project lays the foundation for a robust and scalable data warehouse. Future enhancements could include:
 
-* 📊 **SQL-Based Analytics**
-  
-  Develop advanced SQL queries to extract business insights such as:
-  * Customer segmentation
-  * Sales trends
-  * Product performance
-  * Revenue by country
+1. 📊 **SQL-Based Analytics**
+
+    Develop advanced SQL queries to extract business insights such as:
+    * Customer segmentation
+    * Sales trends
+    * Product performance
+    * Revenue by country
     
-* 📈 **Integration with BI Tools**
+2. 📈 **Integration with BI Tools**
   
-  Connect the Gold layer to Business Intelligence tools like:
-  * Power BI
-  * Tableau
-  * Metabase
+    Connect the Gold layer to Business Intelligence tools like:
+    * Power BI
+    * Tableau
+    * Metabase
     
-  ...to create interactive dashboards and self-service analytics for stakeholders.
+    ...to create interactive dashboards and self-service analytics for stakeholders.
 
-* 🛠️ **Automation & Scheduling**
+3. 🛠️ **Automation & Scheduling**
 
-  Use SQL Server Agent or external orchestration tools (e.g., Airflow, Azure Data Factory) to automate ETL pipelines and data refreshes.
+    Use SQL Server Agent or external orchestration tools (e.g., Airflow, Azure Data Factory) to automate ETL pipelines and data refreshes.
 
-* 🔐 **Role-Based Access Control (RBAC)**
+4. 🔐 **Role-Based Access Control (RBAC)**
 
-  Enforce security policies and access levels depending on user roles (data analyst, data engineer, etc.)
+    Enforce security policies and access levels depending on user roles (data analyst, data engineer, etc.)
 
-* 📦 **Data Export APIs**
+5. 📦 **Data Export APIs**
 
-  Build export mechanisms for downstream systems and data consumers.
+    Build export mechanisms for downstream systems and data consumers.
 
 ---
 
