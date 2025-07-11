@@ -75,27 +75,6 @@ The project follows a **Medallion Architecture** consisting of three key layers:
 
 This project demonstrates practical data profiling and cleansing, transforming messy raw data (Bronze) into clean, trusted analytics-ready data (Silver). The table below shows a breakdown of key data quality checks and transformations performed:
 
-
-
-<!-- | Table                   | Issue                      | Affected Records | Silver Fix                                                                      |
-| ----------------------- | -------------------------- | ---------------- | ------------------------------------------------------------------------------- |
-| **crm\_cust\_info**     | Duplicate IDs              | 5                | Kept latest by create date                                                      |
-|                         | Null IDs                   | 3                | Removed                                                                         |
-|                         | Unwanted spaces (first/last names)            | 32               | Trimmed                                                                         |
-|                         | Inconsistent gender        | 4,577            | Mapped (`F`/`M` ➜ `Female`/`Male`)                                              |
-|                         | Null marital status        | 6                | Mapped to `N/A`                                                                 |
-| **crm\_prd\_info**      | Null product cost          | 2                | Set to `0`                                                                      |
-|                         | Null/invalid product line  | 17               | Mapped to readable lines                                                        |
-|                         | Invalid date orders        | 200              | End date recalculated                                                           |
-| **crm\_sales\_details** | Invalid/null order dates   | 19               | Fixed or set `NULL`                                                             |
-|                         | Sales ≠ price × quantity   | 35               | Recalculated                                                                    |
-| **erp\_cust\_az12**     | Invalid birthdates         | 31               | Future dates ➜ `NULL`                                                           |
-|                         | Inconsistent gender        | 1,484            | Standardized                                                                    |
-| **erp\_loc\_a101**      | Inconsistent country names | \~8,385          | Merged synonyms (e.g. `US` ➜ `United States`, `DE` ➜ `Germany`, blanks ➜ `N/A`) |
-| **erp\_px\_cat\_g1v2**  | Carriage returns           | n/a              | Removed                                                                         | -->
-
-<!-- New -->
-
 | Table                |  Issue                                      | Records Affected | Resolution                                                              |
 | ----------------------- | ---------------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
 | **crm\_cust\_info**     | Duplicates                                     | 5                   | Duplicates removed, kept latest by `cst_create_date`                                                 |
