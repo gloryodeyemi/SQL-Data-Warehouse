@@ -1,0 +1,43 @@
+-- ====================================================================
+-- Checking 'bronze.crm_cust_info'
+-- ====================================================================
+18493 customers
+5 Duplicate Customer IDs
+3 Null Customer IDs
+15 firstname records with unwanted spaces
+17 lastname records with unwanted spaces
+(F, M, NULL) gender value before standardization - 4577 null genders
+(S, M, NULL) marital status value before standardization - 6 null marital status
+
+-- ====================================================================
+-- Checking 'bronze.crm_prd_info'
+-- ====================================================================
+397 products
+2 products with Null cost
+(M, R, S, T, NULL) product line values before standardization - 17 null product lines
+200 invalid date orders
+
+-- ====================================================================
+-- Checking 'bronze.crm_sales_details'
+-- ====================================================================
+60398 sales transactions
+17 null and 2 invalid sales order dates
+35 data inconsistencies in sales, price, and quantity
+
+-- ====================================================================
+-- Checking 'bronze.erp_cust_az12'
+-- ====================================================================
+18483 ERP customers
+31 invalid birthdates
+Total inconsistent gender values: 1,484
+
+-- ====================================================================
+-- Checking 'bronze.erp_loc_a101'
+-- ====================================================================
+13 Unique countries
+~8,385 Total inconsistent country dimension
+
+-- ====================================================================
+-- Checking 'bronze.erp_px_cat_g1v2'
+-- ====================================================================
+4 Total product categories

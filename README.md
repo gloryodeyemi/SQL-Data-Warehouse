@@ -1,5 +1,42 @@
 # 🏢 SQL Data Warehouse
-This project demonstrates a comprehensive **SQL Data Warehousing and Analytics solution**, built from scratch using **Azure Data Studio** and **SQL Server Express**. It simulates an enterprise data pipeline by ingesting raw data from source systems, performing structured transformations, and delivering business-ready data for reporting and analytics using **Medallion Architecture**. It reflects industry best practices in **Data Engineering**, **ETL design**, and **SQL-based data modeling**.
+This project demonstrates a comprehensive **SQL Data Warehousing solution**, built from scratch using **Azure Data Studio** and **SQL Server Express**. It simulates an enterprise data pipeline by ingesting raw data from source systems, performing structured transformations, and delivering business-ready data for reporting and analytics using **Medallion Architecture**. It reflects industry best practices in **Data Engineering**, **ETL design**, and **SQL-based data modeling**.
+
+<!-- This project demonstrates a complete **SQL Data Warehousing solution**, built using **Azure Data Studio** and **SQL Server Express**. It simulates a modern enterprise data pipeline using the **Medallion Architecture** (*Bronze -> Silver -> Gold*). It implements **real-world data engineering** techniques:
+
+* **Raw data ingestion**
+* **Data quality checks & cleansing**
+* **Standardization**
+* **Star Schema design**
+* **Business-ready analytics layer** -->
+
+<!-- --- -->
+
+## 📖 Project Overview
+
+This project involves:
+
+1. **Data Architecture**: Designing a Modern Data Warehouse Using Medallion Architecture **Bronze**, **Silver**, and **Gold** layers.
+2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the warehouse.
+3. **Data Modeling**: Developing fact and dimension tables optimized for analytical queries.
+<!-- 4. **Analytics & Reporting**: Creating SQL-based reports and dashboards for actionable insights. -->
+
+<!-- --- -->
+
+## 🚀 Project Requirements
+
+### Objective
+Develop a modern data warehouse using SQL Server to consolidate sales data, enabling analytical reporting and informed decision-making.
+
+### Specifications
+- **✅ Data Sources**: Import data from two source systems (ERP and CRM) provided as CSV files.
+- **✅ Data Quality**: Cleanse and resolve data quality issues prior to analysis.
+- **✅ Integration**: Combine both sources into a single, user-friendly data model designed for analytical queries.
+- **✅ Scope**: Focus on the latest dataset only; historization of data is not required.
+- **✅ Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
+- **✅ Business Use Cases**:
+  - Customer segmentation and behavior analysis
+  - Product performance tracking
+  - Sales trends
 
 ---
 
@@ -18,7 +55,7 @@ This project utilizes the following tools and technologies for building, managin
 | **draw.io (diagrams.net)** | ![draw.io](https://img.shields.io/badge/draw.io-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white) | Used to design architectural diagrams and data flow visuals. |
 | **Notion**               | ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white) | Project planning and documentation hub for tracking milestones and tasks. |
 
-> 🔍 *Optional tools like Power BI, Excel, or Tableau can be connected to the Gold Layer for business intelligence and reporting.*
+<!-- > 🔍 *Optional tools like Power BI, Excel, or Tableau can be connected to the Gold Layer for business intelligence and reporting.* -->
 
 
 ---
@@ -33,34 +70,50 @@ The project follows a **Medallion Architecture** consisting of three key layers:
 3. **✅ Gold Layer**: Houses business-ready data modeled into a star schema required for reporting and analytics.
 
 ---
-## 📖 Project Overview
 
-This project involves:
+## 📊 **Impact: Data Quality Metrics**
 
-1. **Data Architecture**: Designing a Modern Data Warehouse Using Medallion Architecture **Bronze**, **Silver**, and **Gold** layers.
-2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the warehouse.
-3. **Data Modeling**: Developing fact and dimension tables optimized for analytical queries.
-<!-- 4. **Analytics & Reporting**: Creating SQL-based reports and dashboards for actionable insights. -->
+To ensure trust in data for analytics, **rigorous quality checks** were run on the Bronze layer and resolved in the Silver layer.
+Below are *real metrics* from this project:
+
+| Table                   | Issue                      | Affected Records | Silver Fix                                                                      |
+| ----------------------- | -------------------------- | ---------------- | ------------------------------------------------------------------------------- |
+| **crm\_cust\_info**     | Duplicate IDs              | 5                | Kept latest by create date                                                      |
+|                         | Null IDs                   | 3                | Removed                                                                         |
+|                         | Unwanted spaces            | 32               | Trimmed                                                                         |
+|                         | Inconsistent gender        | 4,577            | Mapped (`F`/`M` ➜ `Female`/`Male`)                                              |
+|                         | Null marital status        | 6                | Mapped to `N/A`                                                                 |
+| **crm\_prd\_info**      | Null product cost          | 2                | Set to `0`                                                                      |
+|                         | Null/invalid product line  | 17               | Mapped to readable lines                                                        |
+|                         | Invalid date orders        | 200              | End date recalculated                                                           |
+| **crm\_sales\_details** | Invalid/null order dates   | 19               | Fixed or set `NULL`                                                             |
+|                         | Sales ≠ price × quantity   | 35               | Recalculated                                                                    |
+| **erp\_cust\_az12**     | Invalid birthdates         | 31               | Future dates ➜ `NULL`                                                           |
+|                         | Inconsistent gender        | 1,484            | Standardized                                                                    |
+| **erp\_loc\_a101**      | Inconsistent country names | \~8,385          | Merged synonyms (e.g. `US` ➜ `United States`, `DE` ➜ `Germany`, blanks ➜ `N/A`) |
+| **erp\_px\_cat\_g1v2**  | Carriage returns           | n/a              | Removed                                                                         |
+
+✅ **Total records impacted:**
+
+* 18k+ CRM customers
+* 18k+ ERP customers
+* 60k+ sales transactions
+* 13 country variations unified
 
 ---
 
-## 🚀 Project Requirements
+## ✨ **Gold Layer: Final Star Schema**
 
-<!-- ### Building the Data Warehouse (Data Engineering) -->
+The **Gold Layer** produces a clean, trusted star schema for analytics:
 
-#### Objective
-Develop a modern data warehouse using SQL Server to consolidate sales data, enabling analytical reporting and informed decision-making.
+| Gold View          | Description                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| `gold.dim_customers` | Combines CRM & ERP data for unified customer dimension. Adds surrogate `customer_key`.      |
+| `gold.dim_products`  | Enriches CRM product info with ERP product categories. Adds surrogate `product_key`.        |
+| `gold.fact_sales`    | Combines sales transactions with product & customer dimensions for a consistent fact table. |
 
-#### Specifications
-- **✅ Data Sources**: Import data from two source systems (ERP and CRM) provided as CSV files.
-- **✅ Data Quality**: Cleanse and resolve data quality issues prior to analysis.
-- **✅ Integration**: Combine both sources into a single, user-friendly data model designed for analytical queries.
-- **✅ Scope**: Focus on the latest dataset only; historization of data is not required.
-- **✅ Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
-- **✅ Business Use Cases**:
-  - Customer segmentation and behavior analysis
-  - Product performance tracking
-  - Sales trends
+
+> 📌 **Key design:** Uses `ROW_NUMBER()` to generate surrogate keys, fallback logic for missing values, and joins for dimension enrichment.
 
 ---
 
@@ -111,18 +164,35 @@ SQL-Data-Warehouse/
    ```bash
    git clone https://github.com/gloryodeyemi/SQL-Data-Warehouse.git
    cd SQL-Data-Warehouse
+   ```
+
 2. **Set Up SQL Server Environment**
 * Install SQL Server Express and Azure Data Studio (if not already installed).
   
-3. **Run ETL Scripts**
+3. **Initialize Database**
 * Run `scripts/database_init.sql` to initialize the database and schemas.
-* Load ERP and CRM CSV files into Bronze layer tables using scripts in `scripts/bronze/`.
-* Transform and clean the data using scripts in `scripts/silver/`.
-* Execute the script in `scripts/gold/` to generate business-ready data for analytics and reporting.
+
+4. **Run Bronze Layer**
+  * Create Bronze tables using `scripts/bronze/bronze_ddl.sql`.
+  * Load Bronze table
+    ```sql
+    EXEC bronze.load_bronze_proc;
+    ```
+
+5. **Run Silver Layer**
+
+  * Create Silver tables using `scripts/silver/silver_ddl.sql`.
+  * Load Silver table
+    ```sql
+    EXEC silver.load_silver_proc;
+    ```
+
+6. **Run Gold Layer**
+* Create Gold VIEW using `scripts/gold/gold_ddl.sql` to generate business-ready data for analytics and reporting.
   
 ![Data Flow](docs/data_flow.png)
 
-4. **Explore Data**
+7. **Explore Data**
 * Use the star schema in the Gold layer for analytical queries and reporting.
   
 ![Data Model](docs/data_model.png)
@@ -146,7 +216,7 @@ SQL-Data-Warehouse/
 ## 🔮 Future Work
 This project lays the foundation for a robust and scalable data warehouse. Future enhancements could include:
 
-* 📊 SQL-Based Analytics
+* 📊 **SQL-Based Analytics**
   
   Develop advanced SQL queries to extract business insights such as:
   * Customer segmentation
@@ -154,7 +224,7 @@ This project lays the foundation for a robust and scalable data warehouse. Futur
   * Product performance
   * Revenue by country
     
-* 📈 Integration with BI Tools
+* 📈 **Integration with BI Tools**
   
   Connect the Gold layer to Business Intelligence tools like:
   * Power BI
@@ -163,15 +233,15 @@ This project lays the foundation for a robust and scalable data warehouse. Futur
     
   ...to create interactive dashboards and self-service analytics for stakeholders.
 
-* 🛠️ Automation & Scheduling
+* 🛠️ **Automation & Scheduling**
 
   Use SQL Server Agent or external orchestration tools (e.g., Airflow, Azure Data Factory) to automate ETL pipelines and data refreshes.
 
-* 🔐 Role-Based Access Control (RBAC)
+* 🔐 **Role-Based Access Control (RBAC)**
 
   Enforce security policies and access levels depending on user roles (data analyst, data engineer, etc.)
 
-* 📦 Data Export APIs
+* 📦 **Data Export APIs**
 
   Build export mechanisms for downstream systems and data consumers.
 
@@ -188,6 +258,7 @@ Hi there! I'm **Glory Odeyemi**, a Data Engineer & Analyst!
 Let's stay in touch! Feel free to connect with me on the following platforms:
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/glory-odeyemi/)
+[![Website](https://img.shields.io/badge/Website-800080?style=for-the-badge&logo=google-chrome&logoColor=white)](https://bento.me/gloryodeyemi)
 [![GitHub](https://img.shields.io/badge/GitHub-24292e?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gloryodeyemi)
 [![Portfolio](https://img.shields.io/badge/Portfolio-ffffff?style=for-the-badge&labelColor=FF0000&logo=google-chrome&logoColor=white)](https://gloryodeyemi.github.io/)
 [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://glowcodes.medium.com/)
