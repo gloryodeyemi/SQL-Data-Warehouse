@@ -103,7 +103,7 @@ This project demonstrates practical data profiling and cleansing, transforming m
 |                         | Unwanted spaces in names             | 32                  | Trimmed first & last names                                                                    |
 |                         | Inconsistent genders (`F`, `M`, `NULL`)        | 4,577 (`NULL`)               | Standardized to `Male`/`Female`; NULL ➜ `N/A`                              |
 |                         | Inconsistent marital status (`S`, `M`, `NULL`) | 6 (`NULL`)                    | Standardized to `Single`/`Married`; NULL ➜ `N/A`                           |
-| **crm\_prd\_info**      | Null costs                                     | 2                   | Set to `0`                                                                 |
+| **crm\_prd\_info**      | Null product costs                                     | 2                   | Set to `0`                                                                 |
 |                         | Invalid product lines (`M`, `R`, `S`, `T`, `NULL`)                          | 17 (`NULL`)                 | Mapped codes to descriptive lines; `NULL` → `N/A`                                                |
 |                         | Invalid date orders                            | 200                 | Recalculated end dates based on next start date                                                     |
 | **crm\_sales\_details** | Null/invalid order dates                       | 19                  | Fixed or set to `NULL`                                                     |
