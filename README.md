@@ -101,8 +101,8 @@ This project demonstrates practical data profiling and cleansing, transforming m
 | **crm\_cust\_info**     | Duplicates                                     | 5                   | Duplicates removed, kept latest by `cst_create_date`                                                 |
 |                         | Null customer IDs                              | 3                   | Nulls excluded                                                                    |
 |                         | Unwanted spaces in names             | 32                  | Trimmed first & last names                                                                    |
-|                         | Inconsistent genders (`F`, `M`, `NULL`)        | 4,577 (`NULL`)               | Standardized to `Male`/`Female`; NULL ➜ `N/A`                              |
-|                         | Inconsistent marital status (`S`, `M`, `NULL`) | 6 (`NULL`)                    | Standardized to `Single`/`Married`; NULL ➜ `N/A`                           |
+|                         | Inconsistent genders (`F`, `M`, `NULL`)        | 4,577 (`NULL`)               | Standardized to `Male`/`Female`; NULL -> `N/A`                              |
+|                         | Inconsistent marital status (`S`, `M`, `NULL`) | 6 (`NULL`)                    | Standardized to `Single`/`Married`; NULL -> `N/A`                           |
 | **crm\_prd\_info**      | Null product costs                                     | 2                   | Set to `0`                                                                 |
 |                         | Invalid product lines (`M`, `R`, `S`, `T`, `NULL`)                          | 17 (`NULL`)                 | Mapped codes to descriptive lines; `NULL` → `N/A`                                                |
 |                         | Invalid date orders                            | 200                 | Recalculated end dates based on next start date                                                     |
